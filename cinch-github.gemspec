@@ -6,11 +6,11 @@ Gem::Specification.new do |s|
   s.name        = "cinch-github"
   s.version     = Cinch::Github::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["TODO: Write your name"]
-  s.email       = ["TODO: Write your email address"]
+  s.authors     = ["Arthur Chiu"]
+  s.email       = ["mr.arthur.chiu@gmail.com"]
   s.homepage    = "http://rubygems.org/gems/cinch-github"
-  s.summary     = %q{TODO: Write a gem summary}
-  s.description = %q{TODO: Write a gem description}
+  s.summary     = %q{Github Plugin for Cinch}
+  s.description = %q{Cinch Plugin to let bots interact with Cinch}
 
   s.rubyforge_project = "cinch-github"
 
@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   
   s.add_dependency  'cinch'
-  s.add_dependency, 'octopi'
+  s.add_dependency  'octopi'
   s.add_development_dependency 'riot', '~>0.12.0'
   s.add_development_dependency 'mocha'
 end
