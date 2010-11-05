@@ -34,7 +34,7 @@ To setup the Issue plugin to work with your cinch bot, we'll need to provide som
 
 #### Commands ####
 
-  * !issue [open|closed] [query]  - returns issues that have state open or closed matching the query
+  * !issue closed [query]         - returns issues that have state open or closed matching the query
   * !issue [query]                - returns issues matching the query. defaults to state open
   * !issue link [number]          - returns issue link for issue number(must be digits)
   * !help github issue            - returns commands for Github Issue
@@ -58,8 +58,8 @@ It's simple. follow the guide on cinch or do something like:
     bot = Cinch::Bot.new do
       configure do |c|
         c.server           = "irc.freenode.net"
-        c.nick             = "padrino-bot"
-        c.channels         = ["#camanji"]
+        c.nick             = "cinch"
+        c.channels         = ["#padrino"]
         c.plugins.plugins  = [Cinch::Plugins::Github::Issue]
       end
 
