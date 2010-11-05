@@ -25,7 +25,7 @@ This plugin manages interaction between Github issues via the Github API.
 
 To setup the Issue plugin to work with your cinch bot, we'll need to provide some info like so:
 
-    Cinch::Github::Issue.configure do |c|
+    Cinch::Plugins::Github::Issue.configure do |c|
       c.user    = 'achiu'                   # your github username
       c.token   = 'some_token'              # your github API token
       c.author  = 'padrino'                 # your repository author
