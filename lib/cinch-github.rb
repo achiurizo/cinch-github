@@ -1,5 +1,7 @@
 module Cinch
-  module Github
-    # Your code goes here...
+  module Plugins
+    module Github
+      autoload :Issue, 'cinch-github/issue'
+    end
   end
 end

@@ -1,0 +1,71 @@
+require 'octopi'
+require 'cinch'
+
+module Cinch
+  module Plugins
+    module Github
+      # Handles interaction with Issues API.
+      class Issue
+        include Cinch::Plugin
+        include Octopi
+
+        class << self
+          attr_accessor :user, :token, :author, :repo
+
+          def configure(&block)
+            yield self
+          end
+        end
+
+        match %r{help github issue},        :method => :display_help
+        match %r{issue (open|closed) (.*)}, :method => :get_ticket  # !issue closed bugs
+        match %r{issue (.*)},               :method => :get_ticket  # !issue sinatra
+        match %r{issue link (.*)},          :method => :reply_link  # !issue link 35
+
+        # Display Github Issue Help
+        def display_help(m)
+          User(m.user.nick).send (<<-EOF).gsub(/^ {10}/,'')
+          !issue [open|closed] [query] - query for a ticket with state open or closed
+          !issue [query] - query for a ticket. defaults to open state.
+          !issue link [number] - returns link for issue number.
+          EOF
+        end
+
+        # Find ticket with gieven
+        def get_ticket(m, *args)
+          query, state = args
+          results = search_issue query, state
+          output m, results.first.last
+        end
+
+        # Return the link of the issue
+        def reply_link(m, arg)
+          arg =~ /\d+/ ? m.reply(issue_link(arg)) : m.reply("You need to give me a number...")
+        end
+
+
+        # Use Github API and Search for the Issue
+        def search_issue(query, state = 'open')
+          authenticated_with :login => self.class.user, :token => self.class.token do
+            Octopi::Issue.search :user => self.class.author, :repo => self.class.repo, :state => state, :keyword => query
+          end
+        end
+
+        # Returns the issue as a link
+        def issue_link(number)
+          "https://www.github.com/#{self.class.author}/#{self.class.repo}/issues/#{number}"
+        end
+
+        private
+
+          # Outputs the reply back to screen
+          def output(m, results)
+            m.reply "#{results.size} Results"
+            puts results.inspect
+            results.each { |result| m.reply "#{result['title']} : #{issue_link(result['number'])}" }
+          end
+
+      end
+    end
+  end
+end
