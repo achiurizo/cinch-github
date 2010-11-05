@@ -17,24 +17,24 @@ module Cinch
           end
         end
 
-        match %r{help github issue},        :method => :display_help
-        match %r{issue (open|closed) (.*)}, :method => :get_ticket  # !issue closed bugs
-        match %r{issue (.*)},               :method => :get_ticket  # !issue sinatra
-        match %r{issue link (.*)},          :method => :reply_link  # !issue link 35
+        match %r{help github issue},        :method => :display_help # !issue help gitub issue
+        match %r{issue (closed) (.*)},      :method => :get_ticket   # !issue closed bugs
+        match %r{issue (.*)},               :method => :get_ticket   # !issue sinatra
+        match %r{issue link (.*)},          :method => :reply_link   # !issue link 35
 
         # Display Github Issue Help
         def display_help(m)
           User(m.user.nick).send (<<-EOF).gsub(/^ {10}/,'')
-          !issue [open|closed] [query] - query for a ticket with state open or closed
-          !issue [query] - query for a ticket. defaults to open state.
-            !issue link [number] - returns link for issue number.
-            EOF
+          !issue closed [query] - query for a ticket with state closed
+          !issue [query] - query for a ticket with state open
+          !issue link [number] - returns link for issue number.
+          EOF
         end
 
         # Find ticket with gieven
         def get_ticket(m, *args)
-          query, state = args
-          results = search_issue query, state
+          query, state = args.reverse
+          results = search_issue CGI.escape(query), state
           output m, results.first.last
         end
 

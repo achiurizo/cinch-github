@@ -21,12 +21,13 @@ context "Issue Plugin" do
 
   context "matches" do 
     setup do
-      mock_match issue, %r{help github issue},        :display_help
-      mock_match issue, %r{issue (open|closed) (.*)}, :get_ticket
-      mock_match issue, %r{issue (.*)},               :get_ticket
-      mock_match issue, %r{issue link (.*)},          :reply_link 
+      @issue = issue
+      mock_match @issue, %r{help github issue},        :display_help
+      mock_match @issue, %r{issue (closed) (.*)},      :get_ticket
+      mock_match @issue, %r{issue (.*)},               :get_ticket
+      mock_match @issue, %r{issue link (.*)},          :reply_link 
     end
-    asserts("that it has matches") { issue.new(Cinch::Bot.new) }
+    asserts("that it has matches") { @issue.new(Cinch::Bot.new) }
   end
 
 
@@ -63,24 +64,24 @@ context "Issue Plugin" do
 
   context "#get_ticket" do
     
-    context "with state" do 
+    context "with closed state" do 
       setup do
         @issue = issue.new(Cinch::Bot.new)
         @message = mock()
         @issue.expects(:search_issue).with('bob','open').returns([[false,true], true])
         @issue.expects(:output).with(@message, true).returns(true)
       end
-      asserts("that it searches") { @issue.get_ticket(@message, 'bob', 'open') }
+      asserts("that it searches") { @issue.get_ticket(@message, 'open', 'bob') }
     end
 
     context "without state" do 
       setup do
         @issue   = issue.new(Cinch::Bot.new)
         @message = mock()
-        @issue.expects(:search_issue).with('bob', nil).returns([[false,true], true])
+        @issue.expects(:search_issue).with('what+bob', nil).returns([[false,true], true])
         @issue.expects(:output).with(@message, true).returns(true)
       end
-      asserts("that it searches") { @issue.get_ticket(@message, 'bob') }
+      asserts("that it searches") { @issue.get_ticket(@message, 'what bob') }
     end
 
   end
