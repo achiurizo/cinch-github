@@ -27,8 +27,8 @@ module Cinch
           User(m.user.nick).send (<<-EOF).gsub(/^ {10}/,'')
           !issue [open|closed] [query] - query for a ticket with state open or closed
           !issue [query] - query for a ticket. defaults to open state.
-          !issue link [number] - returns link for issue number.
-          EOF
+            !issue link [number] - returns link for issue number.
+            EOF
         end
 
         # Find ticket with gieven
@@ -40,9 +40,8 @@ module Cinch
 
         # Return the link of the issue
         def reply_link(m, arg)
-          arg =~ /\d+/ ? m.reply(issue_link(arg)) : m.reply("You need to give me a number...")
+          arg =~ /\D+/ ? m.reply("You need to give me a number...") : m.reply(issue_link(arg))
         end
-
 
         # Use Github API and Search for the Issue
         def search_issue(query, state = 'open')
@@ -61,7 +60,6 @@ module Cinch
           # Outputs the reply back to screen
           def output(m, results)
             m.reply "#{results.size} Results"
-            puts results.inspect
             results.each { |result| m.reply "#{result['title']} : #{issue_link(result['number'])}" }
           end
 

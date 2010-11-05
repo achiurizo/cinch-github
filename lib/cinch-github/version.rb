@@ -1,5 +1,7 @@
 module Cinch
-  module Github
-    VERSION = "0.0.1"
+  module Plugins
+    module Github
+      VERSION = "0.0.1"
+    end
   end
 end
