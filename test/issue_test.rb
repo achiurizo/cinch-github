@@ -22,10 +22,10 @@ context "Issue Plugin" do
   context "matches" do 
     setup do
       @issue = issue
-      mock_match @issue, %r{help github issue},        :display_help
-      mock_match @issue, %r{issue (closed) (.*)},      :get_ticket
-      mock_match @issue, %r{issue (.*)},               :get_ticket
-      mock_match @issue, %r{issue link (.*)},          :reply_link 
+      mock_match @issue, %r{help github issue},                :display_help
+      mock_match @issue, %r{issue state (open|closed) (.*)},   :get_ticket
+      mock_match @issue, %r{issue find (.*)},                  :get_ticket
+      mock_match @issue, %r{issue link (.*)},                  :reply_link 
     end
     asserts("that it has matches") { @issue.new(Cinch::Bot.new) }
   end

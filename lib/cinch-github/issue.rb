@@ -17,16 +17,16 @@ module Cinch
           end
         end
 
-        match %r{help github issue},        :method => :display_help # !issue help gitub issue
-        match %r{issue (closed) (.*)},      :method => :get_ticket   # !issue closed bugs
-        match %r{issue (.*)},               :method => :get_ticket   # !issue sinatra
-        match %r{issue link (.*)},          :method => :reply_link   # !issue link 35
+        match %r{help github issue},                :method => :display_help  # !issue help gitub issue
+        match %r{issue state (open|closed) (.*)},   :method => :get_ticket    # !issue state closed bugs
+        match %r{issue find (.*)},                  :method => :get_ticket    # !issue find sinatra
+        match %r{issue link (.*)},                  :method => :reply_link    # !issue link 35
 
         # Display Github Issue Help
         def display_help(m)
           User(m.user.nick).send (<<-EOF).gsub(/^ {10}/,'')
-          !issue closed [query] - query for a ticket with state closed
-          !issue [query] - query for a ticket with state open
+          !issue state [open|closed] [query] - query for a ticket with state closed
+          !issue find [query] - query for a ticket with state open
           !issue link [number] - returns link for issue number.
           EOF
         end
