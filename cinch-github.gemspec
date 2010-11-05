@@ -4,13 +4,13 @@ require "cinch-github/version"
 
 Gem::Specification.new do |s|
   s.name        = "cinch-github"
-  s.version     = Cinch::Github::VERSION
+  s.version     = Cinch::Plugins::Github::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Arthur Chiu"]
   s.email       = ["mr.arthur.chiu@gmail.com"]
   s.homepage    = "http://rubygems.org/gems/cinch-github"
   s.summary     = %q{Github Plugin for Cinch}
-  s.description = %q{Cinch Plugin to let bots interact with Cinch}
+  s.description = %q{Cinch Plugin to let bots interact with Github}
 
   s.rubyforge_project = "cinch-github"
 
