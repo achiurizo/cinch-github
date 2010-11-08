@@ -1,6 +1,10 @@
 require File.expand_path('../teststrap',__FILE__)
 
 context "Issue Plugin" do
+  setup do
+    Cinch::Plugins::Github::Issue.stubs(:__register_with_bot).with(any_parameters).returns(true)
+  end
+
   helper :issue do
     Cinch::Plugins::Github::Issue.configure do |c|
       c.user    = 'achiu'
@@ -19,13 +23,13 @@ context "Issue Plugin" do
     asserts(:repo).equals   'cinch-github'
   end
 
-  context "matches" do 
+  context "matches" do
     setup do
       @issue = issue
       mock_match @issue, %r{help github issue},                :display_help
       mock_match @issue, %r{issue state (open|closed) (.*)},   :get_ticket
       mock_match @issue, %r{issue find (.*)},                  :get_ticket
-      mock_match @issue, %r{issue link (.*)},                  :reply_link 
+      mock_match @issue, %r{issue link (.*)},                  :reply_link
     end
     asserts("that it has matches") { @issue.new(Cinch::Bot.new) }
   end
@@ -63,8 +67,8 @@ context "Issue Plugin" do
   end
 
   context "#get_ticket" do
-    
-    context "with closed state" do 
+
+    context "with closed state" do
       setup do
         @issue = issue.new(Cinch::Bot.new)
         @message = mock()
@@ -74,7 +78,7 @@ context "Issue Plugin" do
       asserts("that it searches") { @issue.get_ticket(@message, 'open', 'bob') }
     end
 
-    context "without state" do 
+    context "without state" do
       setup do
         @issue   = issue.new(Cinch::Bot.new)
         @message = mock()
@@ -86,9 +90,9 @@ context "Issue Plugin" do
 
   end
 
-  context "#search_issue" do 
-    
-    context "with default" do 
+  context "#search_issue" do
+
+    context "with default" do
       setup do
         @issue = issue.new(Cinch::Bot.new)
         @issue.expects(:authenticated_with).with(:login => 'achiu',:token => 'my_token').returns(true)
@@ -97,8 +101,8 @@ context "Issue Plugin" do
       end
       asserts("that it searches with state open") { @issue.search_issue('bob') }
     end
-  
-    context "with state" do 
+
+    context "with state" do
       setup do
         @issue = issue.new(Cinch::Bot.new)
         @issue.expects(:authenticated_with).with(:login => 'achiu', :token => 'my_token').returns(true)
