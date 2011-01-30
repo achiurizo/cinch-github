@@ -17,7 +17,7 @@ module Cinch
           end
         end
 
-        match %r{help github issue},                :method => :display_help  # !issue help gitub issue
+        match "help github issue",                :method => :display_help  # !issue help github issue
         match %r{issue state (open|closed) (.+)},   :method => :get_ticket    # !issue state closed bugs
         match %r{issue find (.+)},                  :method => :get_ticket    # !issue find sinatra
         match %r{issue link (.+)},                  :method => :reply_link    # !issue link 35
