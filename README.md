@@ -47,7 +47,7 @@ It's simple. follow the guide on cinch or do something like:
     
     # mybot.rb
     require 'cinch'
-    require 'cinch-github'
+    require 'cinch/plugins/github'
 
     Cinch::Plugins::Github::Issue.configure do |c|
       c.user    = 'achiu'                   # your github username
