@@ -1,0 +1,41 @@
+PATH
+  remote: .
+  specs:
+    cinch-github (0.0.1)
+      cinch
+      octopi
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    api_cache (0.2.0)
+    cinch (1.1.1)
+    crack (0.1.8)
+    httparty (0.7.3)
+      crack (= 0.1.8)
+    mechanize (1.0.0)
+      nokogiri (>= 1.2.1)
+    mocha (0.9.10)
+      rake
+    nokogiri (1.4.4)
+    octopi (0.4.0)
+      api_cache
+      httparty (>= 0.4.5)
+      mechanize (>= 0.9.3)
+      nokogiri (>= 1.3.1)
+    rake (0.8.7)
+    riot (0.12.1)
+      rr
+      term-ansicolor
+    rr (1.0.2)
+    term-ansicolor (1.0.5)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  cinch
+  cinch-github!
+  mocha
+  octopi
+  riot (~> 0.12.0)

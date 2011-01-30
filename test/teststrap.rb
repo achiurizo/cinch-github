@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'riot'
 require 'mocha'
-require File.expand_path('../../lib/cinch-github',__FILE__)
+require File.expand_path('../../lib/cinch/plugins/github',__FILE__)
 
 class Riot::Situation
   include Mocha::API

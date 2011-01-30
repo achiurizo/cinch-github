@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
-require "cinch-github/version"
+require "cinch/plugins/github/version"
 
 Gem::Specification.new do |s|
   s.name        = "cinch-github"
@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
   
-  s.add_dependency  'cinch'
+  s.add_dependency  'cinch', '~>1.1.1'
   s.add_dependency  'octopi'
   s.add_development_dependency 'riot', '~>0.12.0'
   s.add_development_dependency 'mocha'
