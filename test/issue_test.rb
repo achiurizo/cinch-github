@@ -30,6 +30,10 @@ context "Issue Plugin" do
       mock_match @issue, %r{issue state (open|closed) (.*)},   :get_ticket
       mock_match @issue, %r{issue find (.*)},                  :get_ticket
       mock_match @issue, %r{issue link (.*)},                  :reply_link
+      mock_match @issue, %r{issue close (\d+) ?(.*)},          :close_issue
+      mock_match @issue, %r{issue reopen (\d+) ?(.*)},         :reopen_issue
+      mock_match @issue, %r{issue comment (\d+) ?(.*)},        :comment_issue
+      mock_match @issue, %r{issue new (.*)},                   :new_issue
     end
     asserts("that it has matches") { @issue.new(Cinch::Bot.new) }
   end
@@ -112,6 +116,60 @@ context "Issue Plugin" do
       asserts("that it searches with state closed") { @issue.search_issue('bob', 'closed') }
     end
 
+  end
+
+  context "#comment_issue" do
+    setup do
+      @m = mock()
+      @m.expects(:reply).returns(true)
+      @issue = issue.new(Cinch::Bot.new)
+      @issue.expects(:authenticated_with).at_least_once.with(:login => 'achiu', :token => 'my_token').returns(true)
+      @mock_issue = mock()
+      @mock_issue.expects(:comment).returns(true)
+      params = { :user => 'achiu', :repo => 'cinch-github', :number => 3 }
+      Octopi::Issue.expects(:find).with(params).returns(@mock_issue)
+    end
+    asserts("that it finds the ticket and adds a comment") { @issue.comment_issue(@m, 3, "foo bar") }
+  end
+
+  context "#close_issue" do
+    setup do
+      @m = mock()
+      @m.expects(:reply).returns(true)
+      @issue = issue.new(Cinch::Bot.new)
+      @issue.expects(:authenticated_with).at_least_once.with(:login => 'achiu', :token => 'my_token').returns(true)
+      @mock_issue = mock()
+      @mock_issue.expects(:close!).returns(true)
+      params = { :user => 'achiu', :repo => 'cinch-github', :number => 3 }
+      Octopi::Issue.expects(:find).with(params).returns(@mock_issue)
+    end
+    asserts("that it finds the ticket and marks it closed") { @issue.close_issue(@m, 3) }
+  end
+
+  context "#reopen_issue" do
+    setup do
+      @m = mock()
+      @m.expects(:reply).returns(true)
+      @issue = issue.new(Cinch::Bot.new)
+      @issue.expects(:authenticated_with).at_least_once.with(:login => 'achiu', :token => 'my_token').returns(true)
+      @mock_issue = mock()
+      @mock_issue.expects(:reopen!).returns(true)
+      params = { :user => 'achiu', :repo => 'cinch-github', :number => 3 }
+      Octopi::Issue.expects(:find).with(params).returns(@mock_issue)
+    end
+    asserts("that it finds the ticket and marks it re-opened") { @issue.reopen_issue(@m, 3) }
+  end
+
+  context "#new_issue" do
+    setup do
+      @m = mock()
+      @m.expects(:reply).returns(true)
+      @issue = issue.new(Cinch::Bot.new)
+      @issue.expects(:authenticated_with).at_least_once.with(:login => 'achiu', :token => 'my_token').returns(true)
+      params = { :user => 'achiu', :repo => 'cinch-github', :number => 3 }
+      Octopi::Issue.expects(:open).with(params).returns(@mock_issue)
+    end
+    asserts("that it opens a new issue") { @issue.new_issue(@m, 'test issue') }
   end
 
 end
