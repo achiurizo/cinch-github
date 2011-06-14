@@ -25,12 +25,14 @@ module Cinch
         match %r{issue close (\d+) ?(.*)},          :method => :close_issue   # !issue close 35 [optional comment]
         match %r{issue reopen (\d+) ?(.*)},         :method => :reopen_issue  # !issue reopen 35 [optional comment]
         match %r{issue new (.+)},                   :method => :new_issue     # !issue new title
+        match %r{issue show (\d+)},                 :method => :show_issue    # !issue show 35
 
         # Display Github Issue Help
         def display_help(m)
           User(m.user.nick).send (<<-EOF).gsub(/^ {10}/,'')
           !issue state [open|closed] [query] - query for a ticket with state closed
           !issue find [query] - query for a ticket with state open
+          !issue show [number] - shows detail for issue
           !issue link [number] - returns link for issue number.
           !issue close [number] [optional comment] - close an issue
           !issue reopen [number] [optional comment] - reopen an issue
@@ -45,7 +47,18 @@ module Cinch
           results = search_issue CGI.escape(query), state
           output m, results.first.last
         end
-
+        
+        # show ticket title
+        def show_issue(m, arg)
+          result = find_issue(arg)
+          p result
+          if result
+            m.reply "##{arg} #{result.title} : #{issue_link(arg)}"
+          else
+            m.reply "Not found"
+          end
+        end
+        
         # Return the link of the issue
         def reply_link(m, arg)
           arg =~ /\D+/ ? m.reply("You need to give me a number...") : m.reply(issue_link(arg))
