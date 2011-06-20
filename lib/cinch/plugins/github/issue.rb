@@ -30,14 +30,14 @@ module Cinch
         # Display Github Issue Help
         def display_help(m)
           User(m.user.nick).send (<<-EOF).gsub(/^ {10}/,'')
-          !issue state [open|closed] [query] - query for a ticket with state closed
-          !issue find [query] - query for a ticket with state open
-          !issue show [number] - shows detail for issue
-          !issue link [number] - returns link for issue number.
-          !issue close [number] [optional comment] - close an issue
+          !issue state [open|closed] [query]        - query for a ticket with state closed
+          !issue find [query]                       - query for a ticket with state open
+          !issue show [number]                      - shows detail for issue
+          !issue link [number]                      - returns link for issue number.
+          !issue close [number] [optional comment]  - close an issue
           !issue reopen [number] [optional comment] - reopen an issue
-          !issue comment [number] [comment] - comment on an issue
-          !issue comment [new] [title] - create a new issue
+          !issue comment [number] [comment]         - comment on an issue
+          !issue new [title]                        - create a new issue
           EOF
         end
 
@@ -47,7 +47,7 @@ module Cinch
           results = search_issue CGI.escape(query), state
           output m, results.first.last
         end
-        
+
         # show ticket title
         def show_issue(m, arg)
           result = find_issue(arg)
@@ -58,7 +58,7 @@ module Cinch
             m.reply "Not found"
           end
         end
-        
+
         # Return the link of the issue
         def reply_link(m, arg)
           arg =~ /\D+/ ? m.reply("You need to give me a number...") : m.reply(issue_link(arg))
@@ -109,9 +109,9 @@ module Cinch
         def close_issue(m, number, comment="")
           i = find_issue(number)
           authenticated_with :login => self.class.user, :token => self.class.token do
-            
+
             if i.close!
-              
+
               msg = "Closed via IRC by #{m.user.nick}"
               if comment != ""
                 msg += "\n#{comment}"
@@ -128,9 +128,9 @@ module Cinch
         def reopen_issue(m, number, comment="")
           i = find_issue(number)
           authenticated_with :login => self.class.user, :token => self.class.token do
-            
+
             if i.reopen!
-              
+
               msg = "Reopened via IRC by #{m.user.nick}"
               if comment != ""
                 msg += "\n#{comment}"
