@@ -34,17 +34,19 @@ To setup the Issue plugin to work with your cinch bot, we'll need to provide som
 
 #### Commands ####
 
-  * !issue state [open|closed] [query]    - returns issues that have state open or closed matching the query
-  * !issue find [query]                   - returns issues matching the query. defaults to state open
-  * !issue link [number]                  - returns issue link for issue number(must be digits)
-  * !help github issue                    - returns commands for Github Issue
-  
-
+  * !issue state [open|closed] [query]        - returns issues that have state open or closed matching the query
+  * !issue find [query]                       - returns issues matching the query. defaults to state open
+  * !issue link [number]                      - returns issue link for issue number(must be digits)
+  * !issue comment [number] [comment]         - comment on an issue
+  * !issue new [title]                        - Create a new issue
+  * !issue close [number] [optional comment]  - Close an issue with an optional comment
+  * !issue reopen [number] [optional comment] - Reopen an issue with an optional comment
+  * !help github issue                        - returns commands for Github Issue
 
 ## Integration with Cinch ##
 
 It's simple. follow the guide on cinch or do something like:
-    
+
     # mybot.rb
     require 'cinch'
     require 'cinch/plugins/github'
@@ -74,6 +76,14 @@ Finally, run your bot.
 
 And there you go!
 
+
+CONTRIBUTORS
+------------
+
+Michael D. Ivey ([ivey](https://github.com/ivey))
+
+  * For having issue return a title and link when called.
+  * For adding new, close, reopen, and commenting operations with issues
 
 TODO
 -----
